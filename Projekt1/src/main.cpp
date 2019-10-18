@@ -21,7 +21,7 @@ string read(string filename)
     
     char sign;
 
-    while ( inFile >> sign )
+    while ( inFile >> noskipws >> sign )
     {
         if( sign > 96 && sign < 123 )
             sign -= 32;
