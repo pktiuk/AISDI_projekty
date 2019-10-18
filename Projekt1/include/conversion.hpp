@@ -3,4 +3,4 @@
 
 using namespace std;
 
-void printMorse(string words);
+void printMorse(string& words);
