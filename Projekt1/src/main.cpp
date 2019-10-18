@@ -25,7 +25,7 @@ string read(string filename)
     {
         if( sign > 96 && sign < 123 )
             sign -= 32;
-        if ( sign > 64 && sign < 91 )
+        if ( ( sign > 64 && sign < 91 ) || sign == 32 )
             txt += sign;
     }
 
