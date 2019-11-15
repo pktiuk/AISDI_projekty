@@ -21,7 +21,7 @@ std::vector<string> read(string filename,int num=INT32_MAX)
     
     string word;
 
-    while ( inFile >> word || i < num)
+    while ( inFile >> word && i < num)
     {
         wczytano.push_back(word);
         i++;
