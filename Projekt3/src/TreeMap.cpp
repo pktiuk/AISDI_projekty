@@ -105,7 +105,47 @@ class TreeMap
 
     void splay(element<key_type, mapped_type>& x)
     {
-
+        while( x->parent == NULL )
+        {
+            if( x->parent->parent == NULL )
+            {
+                if( x == x->parent->leftChild )
+                {
+                    rightRotataion(x);
+                }
+                else
+                {
+                    leftRotation(x);
+                } 
+            }
+            else
+            if( x->parent == x->parent->parent->leftChild && x == x->parent->leftChild )
+            {
+                rightRotataion(x->parent);
+                rightRotataion(x);
+            }
+            else
+            if( x->parent == x->parent->parent->rightChild && x == x->parent->rightChild )
+            {
+                leftRotataion(x->parent);
+                leftRotataion(x);
+            }
+            else
+            {
+                if( x == x->parent->rightChild )
+                {
+                    leftRotation(x);
+                    rightRotataion(x);
+                }
+                else
+                {
+                    rightRotataion(x);
+                    leftRotation(x);
+                }
+            }
+        }
+        
+        
     }
 
     /*!
