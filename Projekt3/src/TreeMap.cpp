@@ -105,7 +105,7 @@ class TreeMap
 
     void splay(element<key_type, mapped_type>& x)
     {
-        while( x->parent == NULL )
+        while( x->parent != NULL )
         {
             if( x->parent->parent == NULL )
             {
