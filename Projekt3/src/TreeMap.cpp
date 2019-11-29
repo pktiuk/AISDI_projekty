@@ -69,6 +69,9 @@ class TreeMap
 
     element<key_type, mapped_type>* root = NULL;
 
+    int high = 0;
+    int balance = 0;
+
     TreeMap() = default;    // konstruktor trywialny
     ~TreeMap()
     {
