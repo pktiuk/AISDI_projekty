@@ -323,7 +323,7 @@ class TreeMap
         throw std::runtime_error("TODO: size");
     }
 
-    void write()
+    
 private:
 
 };
