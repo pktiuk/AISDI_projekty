@@ -227,10 +227,25 @@ class TreeMap
 
     /*!
      * zwraca wartosc dla podanego klucza
+     * jesli go nie znajdzie zwraca NULL
      */
     const mapped_type& value(const key_type& key) const
     {
-        throw std::runtime_error("TODO: value");
+        //throw std::runtime_error("TODO: value");
+        element<key_type, mapped_type>* tmp = root;
+        while( tmp != NULL )
+        {
+            if(tmp->key == key)
+            {
+                return tmp->value;
+            }
+            else
+            if(key < tmp->key)
+                tmp = tmp->leftChild;
+            else
+                tmp = tmp->rightChild;
+        }
+        return NULL;
     }
 
     /*!
