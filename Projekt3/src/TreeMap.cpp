@@ -253,6 +253,8 @@ class TreeMap
     void insert(const key_type& key, const mapped_type &value)
     {
         //throw std::runtime_error("TODO: insert");
+
+        element<key_type, mapped_type>* prev;
         if(isEmpty())
         {
             root = new element<key_type, mapped_type>;
@@ -267,6 +269,7 @@ class TreeMap
             element<key_type, mapped_type>* currEl=root;
             while(true)
             {
+                
                 if(currEl->key==key)
                     return;
                 if(currEl->key<key)
@@ -279,6 +282,9 @@ class TreeMap
                         currEl->rightChild->parent=*currEl;
                         currEl->rightChild->rightChild = NULL;
                         currEl->rightChild->leftChild = NULL;
+
+                        currEl->balance -= 1;
+                        prev = currEl->rightChild;
                         break;
                     }else
                     {
@@ -294,6 +300,9 @@ class TreeMap
                         currEl->leftChild->parent=*currEl;
                         currEl->leftChild->rightChild = NULL;
                         currEl->leftChild->leftChild = NULL;
+
+                        currEl->balance += 1;
+                        prev = currEl->leftChild;
                         break;
                     }else
                     {
@@ -302,10 +311,56 @@ class TreeMap
                     
                 }
             }
-
-        while(currEl!=NULL){
-
+        
+        while(currEl!=NULL)
+        {
+            if(currEl->balance != 0)
+                break;
+            if(currEl->leftChild == prev)
+            {
+                currEl->balance = 1;
+            }
+            else
+                currEl->balance = -1;
+            prev = currEl;
+            currEl = currEl->parent;
         }
+
+        if(currEl->balance == -1)
+        {
+            if(currEl->leftChild == prev)
+            {
+                currEl->balance = 0;
+            }
+            else
+            if(prev->balance == 1)
+            {
+                rl(prev);
+            }
+            else
+            {
+                rightRotataion(prev);
+            }
+            
+        }
+        else
+        {
+            if(currEl->rightChild == prev)
+            {
+                currEl->balance = 0;
+                return;
+            }
+            if(currEl->balance == -1)
+            {
+                lr(prev); //????????? moze currEl
+            }
+            else
+            {
+                leftRotation(prev);
+            }
+        }
+
+
 
             //Update Heights
         }
