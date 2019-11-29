@@ -264,7 +264,50 @@ class TreeMap
         }
         else
         {
+            element<key_type, mapped_type>* currEl=root;
+            while(true)
+            {
+                if(currEl->key==key)
+                    return;
+                if(currEl->key<key)
+                {
+                    if(currEl->rightChild==NULL)
+                    {
+                        currEl->rightChild=new element<key_type, mapped_type>;
+                        currEl->rightChild->key=key;
+                        currEl->rightChild->value=value;
+                        currEl->rightChild->parent=*currEl;
+                        currEl->rightChild->rightChild = NULL;
+                        currEl->rightChild->leftChild = NULL;
+                        break;
+                    }else
+                    {
+                        currEl=currEl->rightChild;
+                    }
+                    
+                }else if(currEl->key>key)
+                {
+                    if(currEl->leftChild==NULL){
+                        currEl->leftChild=new element<key_type, mapped_type>;
+                        currEl->leftChild->key=key;
+                        currEl->leftChild->value=value;
+                        currEl->leftChild->parent=*currEl;
+                        currEl->leftChild->rightChild = NULL;
+                        currEl->leftChild->leftChild = NULL;
+                        break;
+                    }else
+                    {
+                        currEl=currEl->leftChild;
+                    }
+                    
+                }
+            }
 
+        while(currEl!=NULL){
+
+        }
+
+            //Update Heights
         }
     }
 
