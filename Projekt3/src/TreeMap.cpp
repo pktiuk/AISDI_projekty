@@ -70,7 +70,28 @@ class TreeMap
     element<key_type, mapped_type>* root = NULL;
 
     TreeMap() = default;    // konstruktor trywialny
-    ~TreeMap() = default;   // destruktor trywialny
+    ~TreeMap()
+    {
+        clear(root);
+    }
+
+    void clear(element<key_type, mapped_type>& x)
+    {
+        if(x==NULL)
+        {
+            return;
+        }
+        else
+        {
+            clear(x->leftChild);
+            clear(x->rightChild);
+        }
+        x->leftChild = NULL;
+        x->rightChild = NULL;
+        x->parent = NULL;
+        delete x;
+
+    }
 
     /*!
      * true jezeli slownik jest pusty
@@ -103,7 +124,7 @@ class TreeMap
         y->parent = x;
     }
 
-    void splay(element<key_type, mapped_type>& x)
+    void avl(element<key_type, mapped_type>& x)
     {
         while( x->parent != NULL )
         {
