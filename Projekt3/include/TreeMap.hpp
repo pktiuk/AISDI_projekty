@@ -2,6 +2,7 @@
 #include <chrono>
 #include <utility>
 
+using namespace std;
 /*!
  *  Narzedzie do zliczania czasu
  *
@@ -70,13 +71,6 @@ class TreeMap
 
     element<key_type, mapped_type>* root = NULL;
 
-    
-    TreeMap() = default;    // konstruktor trywialny
-    ~TreeMap()
-    {
-        clear(root);
-    }
-
     void clear(element<key_type, mapped_type>& x)
     {
         if(x==NULL)
@@ -94,6 +88,14 @@ class TreeMap
         delete x;
 
     }
+    
+    TreeMap() = default;    // konstruktor trywialny
+    ~TreeMap()
+    {
+        clear(root);
+    }
+
+    
 
     /*!
      * true jezeli slownik jest pusty
@@ -421,15 +423,19 @@ class TreeMap
         throw std::runtime_error("TODO: size");
     }
 
+    void write(element<key_type, mapped_type>& x)
+    {
+        if(x == NULL)
+            cout << "\n";
+        cout << x->key << " ";   
+        write(x->leftChild);
+        write(x->leftChild);
+    }
     
 private:
 
 };
 
 
-int main()
-{
-    //unit_test();
 
-    return 0;
-}
+
