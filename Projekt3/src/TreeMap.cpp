@@ -53,6 +53,7 @@ struct element
     element* leftChild;
     element* rightChild;
     element* parent;
+    int balance = 0;
 };
 
 
@@ -69,9 +70,7 @@ class TreeMap
 
     element<key_type, mapped_type>* root = NULL;
 
-    int high = 0;
-    int balance = 0;
-
+    
     TreeMap() = default;    // konstruktor trywialny
     ~TreeMap()
     {
@@ -109,36 +108,98 @@ class TreeMap
         
     }
 
-    void leftRotation(element<key_type, mapped_type>& x)
+    void updateBalancell(element<key_type, mapped_type>& x, element<key_type, mapped_type>& y)
+    {
+        if(x->balance == 1)
+        {
+            x->balance = 0;
+            y->balance = 0;
+        }
+        else
+        {
+            y->balance = 1;
+            x->balance = -1;
+        }
+    }
+
+    void updateBalancerr(element<key_type, mapped_type>& x, element<key_type, mapped_type>& y)
+    {
+        if(x->balance == -1)
+        {
+            x->balance = 0;
+            y->balance = 0;
+        }
+        else
+        {
+            y->balance = -1;
+            x->balance = 1;
+        }
+    }
+
+    void leftRotation(element<key_type, mapped_type>& x, bool doUpdate = true)
     {
         element<key_type, mapped_type>* y = x->parent;
         y->rightChild = x->leftChild;
         x->leftChild = y;
         x->parent = y->parent;
         y->parent = x;
+
+        if(doUpdate)
+        {
+            updateBalancell(x, y);
+        }
+
     }
 
-    void rightRotataion(element<key_type, mapped_type>& x)
+    void rightRotataion(element<key_type, mapped_type>& x, bool doUpdate = true)
     {
         element<key_type, mapped_type>* y = x->parent;
         y->leftChild = x->rightChild;
         x->rightChild = y;
         x->parent = y->parent;
         y->parent = x;
+
+        if(doUpdate)
+        {
+            updateBalancerr(x, y);
+        }
     }
 
-    void lr(element<key_type, mapped_type>& x)
+    void lr(element<key_type, mapped_type>& b)
     {
-        element<key_type, mapped_type>* tmp = x->rightChild;
-        rightRotataion(tmp);
-        leftRotation(tmp);
+        element<key_type, mapped_type>* c = b->rightChild;
+        element<key_type, mapped_type>* a = b->parent;
+        rightRotataion(c, false);
+        leftRotation(c, false);
+
+        if(c->balance == 1)
+            a->balance = -1;
+        else
+            a->balance = 0;
+        if(c->balance == -1)
+            b->balance = 1;
+        else
+            b->balance = 0;
+
     }
 
-    void rl(element<key_type, mapped_type>& x)
+    void rl(element<key_type, mapped_type>& b)
     {
-        element<key_type, mapped_type>* tmp = x->leftChild;
-        leftRotation(tmp);
-        rightRotataion(tmp);
+        element<key_type, mapped_type>* c = b->leftChild;
+        element<key_type, mapped_type>* a = b->parent;
+        leftRotation(c, false);
+        rightRotataion(c, false);
+
+        if(c->balance == -1)
+            a->balance = 1;
+        else
+            a->balance = 0;
+        if(c->balance == 1)
+            b->balance = -1;
+        else
+            b->balance = 0;
+        
+
     }
 
     void avl(element<key_type, mapped_type>& x)
@@ -261,6 +322,8 @@ class TreeMap
     size_t size() const {
         throw std::runtime_error("TODO: size");
     }
+
+    void write()
 private:
 
 };
