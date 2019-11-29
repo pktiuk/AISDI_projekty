@@ -127,6 +127,20 @@ class TreeMap
         y->parent = x;
     }
 
+    void lr(element<key_type, mapped_type>& x)
+    {
+        element<key_type, mapped_type>* tmp = x->rightChild;
+        rightRotataion(tmp);
+        leftRotation(tmp);
+    }
+
+    void rl(element<key_type, mapped_type>& x)
+    {
+        element<key_type, mapped_type>* tmp = x->leftChild;
+        leftRotation(tmp);
+        rightRotataion(tmp);
+    }
+
     void avl(element<key_type, mapped_type>& x)
     {
         while( x->parent != NULL )
