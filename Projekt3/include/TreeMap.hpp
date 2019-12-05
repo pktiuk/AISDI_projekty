@@ -313,7 +313,7 @@ class TreeMap
                     
                 }
             }
-        
+        /*
             while(currEl!=NULL)
             {
                 if(currEl->balance != 0)
@@ -361,6 +361,8 @@ class TreeMap
                     leftRotation(prev);
                 }
             }
+
+            */
 
 
 
