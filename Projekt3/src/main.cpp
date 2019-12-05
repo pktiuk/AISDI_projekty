@@ -1,5 +1,6 @@
 #include <iostream>
-#include "TreeMap.hpp"
+#include <TreeMap.hpp>
+#include <loadWords.hpp>
 
 int main()
 {
