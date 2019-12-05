@@ -314,53 +314,53 @@ class TreeMap
                 }
             }
         
-        while(currEl!=NULL)
-        {
-            if(currEl->balance != 0)
-                break;
-            if(currEl->leftChild == prev)
+            while(currEl!=NULL)
             {
-                currEl->balance = 1;
+                if(currEl->balance != 0)
+                    break;
+                if(currEl->leftChild == prev)
+                {
+                    currEl->balance = 1;
+                }
+                else
+                    currEl->balance = -1;
+                prev = currEl;
+                currEl = currEl->parent;
             }
-            else
-                currEl->balance = -1;
-            prev = currEl;
-            currEl = currEl->parent;
-        }
 
-        if(currEl->balance == -1)
-        {
-            if(currEl->leftChild == prev)
-            {
-                currEl->balance = 0;
-            }
-            else
-            if(prev->balance == 1)
-            {
-                rl(prev);
-            }
-            else
-            {
-                rightRotataion(prev);
-            }
-            
-        }
-        else
-        {
-            if(currEl->rightChild == prev)
-            {
-                currEl->balance = 0;
-                return;
-            }
             if(currEl->balance == -1)
             {
-                lr(prev); //????????? moze currEl
+                if(currEl->leftChild == prev)
+                {
+                    currEl->balance = 0;
+                }
+                else
+                if(prev->balance == 1)
+                {
+                    rl(prev);
+                }
+                else
+                {
+                    rightRotataion(prev);
+                }
+                
             }
             else
             {
-                leftRotation(prev);
+                if(currEl->rightChild == prev)
+                {
+                    currEl->balance = 0;
+                    return;
+                }
+                if(currEl->balance == -1)
+                {
+                    lr(prev); //????????? moze currEl
+                }
+                else
+                {
+                    leftRotation(prev);
+                }
             }
-        }
 
 
 
@@ -426,10 +426,14 @@ class TreeMap
     void write(element<key_type, mapped_type>* x)
     {
         if(x == NULL)
+        {
             cout << "\n";
-        cout << x->key << " ";   
+            return;
+        }
+        //cout << x->key << endl<<" l:" << x->leftChild->key <<endl << " r:" << x->rightChild->key << endl;   
+        cout << x->key << " ";
         write(x->leftChild);
-        write(x->leftChild);
+        write(x->rightChild);
     }
     
 private:
