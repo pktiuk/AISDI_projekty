@@ -71,7 +71,7 @@ class TreeMap
 
     element<key_type, mapped_type>* root = NULL;
 
-    void clear(element<key_type, mapped_type>& x)
+    void clear(element<key_type, mapped_type>* x)
     {
         if(x==NULL)
         {
@@ -110,7 +110,7 @@ class TreeMap
         
     }
 
-    void updateBalancell(element<key_type, mapped_type>& x, element<key_type, mapped_type>& y)
+    void updateBalancell(element<key_type, mapped_type>* x, element<key_type, mapped_type>* y)
     {
         if(x->balance == 1)
         {
@@ -124,7 +124,7 @@ class TreeMap
         }
     }
 
-    void updateBalancerr(element<key_type, mapped_type>& x, element<key_type, mapped_type>& y)
+    void updateBalancerr(element<key_type, mapped_type>* x, element<key_type, mapped_type>* y)
     {
         if(x->balance == -1)
         {
@@ -138,7 +138,7 @@ class TreeMap
         }
     }
 
-    void leftRotation(element<key_type, mapped_type>& x, bool doUpdate = true)
+    void leftRotation(element<key_type, mapped_type>* x, bool doUpdate = true)
     {
         element<key_type, mapped_type>* y = x->parent;
         y->rightChild = x->leftChild;
@@ -153,7 +153,7 @@ class TreeMap
 
     }
 
-    void rightRotataion(element<key_type, mapped_type>& x, bool doUpdate = true)
+    void rightRotataion(element<key_type, mapped_type>* x, bool doUpdate = true)
     {
         element<key_type, mapped_type>* y = x->parent;
         y->leftChild = x->rightChild;
@@ -167,7 +167,7 @@ class TreeMap
         }
     }
 
-    void lr(element<key_type, mapped_type>& b)
+    void lr(element<key_type, mapped_type>* b)
     {
         element<key_type, mapped_type>* c = b->rightChild;
         element<key_type, mapped_type>* a = b->parent;
@@ -185,7 +185,7 @@ class TreeMap
 
     }
 
-    void rl(element<key_type, mapped_type>& b)
+    void rl(element<key_type, mapped_type>* b)
     {
         element<key_type, mapped_type>* c = b->leftChild;
         element<key_type, mapped_type>* a = b->parent;
@@ -204,7 +204,7 @@ class TreeMap
 
     }
 
-    void avl(element<key_type, mapped_type>& x)
+    void avl(element<key_type, mapped_type>* x)
     {
         while( x->parent != NULL )
         {
@@ -281,7 +281,7 @@ class TreeMap
                         currEl->rightChild=new element<key_type, mapped_type>;
                         currEl->rightChild->key=key;
                         currEl->rightChild->value=value;
-                        currEl->rightChild->parent=*currEl;
+                        currEl->rightChild->parent=currEl;
                         currEl->rightChild->rightChild = NULL;
                         currEl->rightChild->leftChild = NULL;
 
@@ -299,7 +299,7 @@ class TreeMap
                         currEl->leftChild=new element<key_type, mapped_type>;
                         currEl->leftChild->key=key;
                         currEl->leftChild->value=value;
-                        currEl->leftChild->parent=*currEl;
+                        currEl->leftChild->parent=currEl;
                         currEl->leftChild->rightChild = NULL;
                         currEl->leftChild->leftChild = NULL;
 
@@ -371,7 +371,7 @@ class TreeMap
     /*!
      * dodaje wpis do slownika przez podanie pary klucz-wartosc
      */
-    void insert(const value_type &key_value)
+    void insert(const value_type *key_value)
     {
         throw std::runtime_error("TODO: insert");
     }
@@ -423,7 +423,7 @@ class TreeMap
         throw std::runtime_error("TODO: size");
     }
 
-    void write(element<key_type, mapped_type>& x)
+    void write(element<key_type, mapped_type>* x)
     {
         if(x == NULL)
             cout << "\n";
