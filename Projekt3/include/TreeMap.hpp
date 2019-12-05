@@ -54,7 +54,7 @@ struct element
     element* leftChild;
     element* rightChild;
     element* parent;
-    int balance = 0;
+    int height = 0;
 };
 
 
@@ -138,70 +138,84 @@ class TreeMap
         }
     }
 
-    void leftRotation(element<key_type, mapped_type>* x, bool doUpdate = true)
+    void leftRotation(element<key_type, mapped_type>* a)
     {
-        element<key_type, mapped_type>* y = x->parent;
-        y->rightChild = x->leftChild;
-        x->leftChild = y;
-        x->parent = y->parent;
-        y->parent = x;
 
-        if(doUpdate)
+        cout << "left\n" << a->key <<"\n";
+        element<key_type, mapped_type>* b = a->rightChild;
+        element<key_type, mapped_type>* b1 = b->leftChild;
+
+        cout<<(b==NULL?-1:b->key) << "!" << (b1==NULL?-1:b1->key)<< "\n";
+        if(a->parent != NULL)
         {
-            updateBalancell(x, y);
+            if(a->parent->leftChild == a)
+                a->parent->leftChild = b;
+            else
+                a->parent->rightChild = b;
+            
         }
+        b->parent = a->parent;
+        a->parent = b;
+        b->leftChild = a;
+        a->rightChild = b1;
+        a->height = getHeight(a);
+        b->height = getHeight(b);
+
+        //cout<<(b->leftChild==NULL?-1:b->leftChild->key) << "!" <<(b->rightChild==NULL?-1:b->rightChild->key) << "!" << (b1==NULL?-1:b1->key)<< "\n";
+
+        if( a == root )
+            root = b;
 
     }
 
-    void rightRotataion(element<key_type, mapped_type>* x, bool doUpdate = true)
+    void rightRotation(element<key_type, mapped_type>* a)
     {
-        element<key_type, mapped_type>* y = x->parent;
-        y->leftChild = x->rightChild;
+        cout << "right\n" << a->key <<"\n";
+        element<key_type, mapped_type>* b = a->leftChild;
+        element<key_type, mapped_type>* b1 = b->rightChild;
+        /*y->leftChild = x->rightChild;
         x->rightChild = y;
         x->parent = y->parent;
         y->parent = x;
+        */
 
-        if(doUpdate)
+        if(a->parent != NULL)
         {
-            updateBalancerr(x, y);
+            if(a->parent->leftChild == a)
+                a->parent->leftChild = b;
+            else
+            a->parent->rightChild = b;
+            
         }
+        b->parent = a->parent;
+        a->parent = b;
+        b->rightChild = a;
+        a->leftChild = b1;
+        a->height = getHeight(a);
+        b->height = getHeight(b);
+
+        if( a == root )
+            root = b;
     }
 
     void lr(element<key_type, mapped_type>* b)
     {
+        cout << "lr\n";
         element<key_type, mapped_type>* c = b->rightChild;
-        element<key_type, mapped_type>* a = b->parent;
-        rightRotataion(c, false);
-        leftRotation(c, false);
-
-        if(c->balance == 1)
-            a->balance = -1;
-        else
-            a->balance = 0;
-        if(c->balance == -1)
-            b->balance = 1;
-        else
-            b->balance = 0;
+        //element<key_type, mapped_type>* a = b->parent;
+        rightRotation(c);
+        leftRotation(c);
 
     }
 
     void rl(element<key_type, mapped_type>* b)
     {
+        cout << "rl\n";
         element<key_type, mapped_type>* c = b->leftChild;
-        element<key_type, mapped_type>* a = b->parent;
-        leftRotation(c, false);
-        rightRotataion(c, false);
-
-        if(c->balance == -1)
-            a->balance = 1;
-        else
-            a->balance = 0;
-        if(c->balance == 1)
-            b->balance = -1;
-        else
-            b->balance = 0;
+        //element<key_type, mapped_type>* a = b->parent;
+        leftRotation(c);
+        rightRotation(c);
         
-
     }
 
     void avl(element<key_type, mapped_type>* x)
@@ -212,7 +226,7 @@ class TreeMap
             {
                 if( x == x->parent->leftChild )
                 {
-                    rightRotataion(x);
+                    rightRotaion(x);
                 }
                 else
                 {
@@ -222,31 +236,53 @@ class TreeMap
             else
             if( x->parent == x->parent->parent->leftChild && x == x->parent->leftChild )
             {
-                rightRotataion(x->parent);
-                rightRotataion(x);
+                rightRotation(x->parent);
+                rightRotation(x);
             }
             else
             if( x->parent == x->parent->parent->rightChild && x == x->parent->rightChild )
             {
-                leftRotataion(x->parent);
-                leftRotataion(x);
+                leftRotaion(x->parent);
+                leftRotaion(x);
             }
             else
             {
                 if( x == x->parent->rightChild )
                 {
                     leftRotation(x);
-                    rightRotataion(x);
+                    rightRotaion(x);
                 }
                 else
                 {
-                    rightRotataion(x);
+                    rightRotaion(x);
                     leftRotation(x);
                 }
             }
         }
+    }
+
+    int getHeight(element<key_type, mapped_type>* x)
+    {
+        if( x == NULL )
+            return 0;
+        int l, r;
+        if(x->leftChild == NULL)
+            l = 0;
+        else
+            l = x->leftChild->height;
         
+        if(x->rightChild == NULL)
+            r = 0;
+        else
+            r = x->rightChild->height;
+
+        return max(r, l) + 1;        
         
+    }
+
+    int getBalance(element<key_type, mapped_type>* x)
+    {
+        return getHeight(x->leftChild) - getHeight(x->rightChild);
     }
 
     /*!
@@ -254,8 +290,23 @@ class TreeMap
      */
     void insert(const key_type& key, const mapped_type &value)
     {
-        //throw std::runtime_error("TODO: insert");
+        if( isEmpty() )
+        {
+            root = new element<key_type, mapped_type>;
+            root->key = key;
+            root->value = value;
+            root->leftChild = NULL;
+            root->rightChild = NULL;
+            root->parent = NULL;
+            root->height = 1;
+        }
+        else
+        {
+            insert(key, value, root);
+        
+        }
 
+        /*
         element<key_type, mapped_type>* prev;
         if(isEmpty())
         {
@@ -313,7 +364,8 @@ class TreeMap
                     
                 }
             }
-        /*
+        
+            
             while(currEl!=NULL)
             {
                 if(currEl->balance != 0)
@@ -327,7 +379,12 @@ class TreeMap
                 prev = currEl;
                 currEl = currEl->parent;
             }
-
+            if(currEl == NULL)
+            {
+                return;
+            }
+            */
+            /*
             if(currEl->balance == -1)
             {
                 if(currEl->leftChild == prev)
@@ -361,15 +418,81 @@ class TreeMap
                     leftRotation(prev);
                 }
             }
+            
 
-            */
-
-
+            
 
             //Update Heights
         }
+        */
     }
 
+    void insert(const key_type& key, const mapped_type &value, element<key_type, mapped_type>* x)
+    {
+        if(key < x->key)
+        {
+            if( x->leftChild == NULL )
+            {
+                x->leftChild=new element<key_type, mapped_type>;
+                x->leftChild->key=key;
+                x->leftChild->value=value;
+                x->leftChild->parent=x;
+                x->leftChild->rightChild = NULL;
+                x->leftChild->leftChild = NULL;
+                x->leftChild->height = 1;
+            }
+            else
+            {
+                insert(key, value, x->leftChild);
+            }
+        }
+        else
+        if(key > x->key)
+        {
+            if(x->rightChild == NULL)
+            {
+                x->rightChild=new element<key_type, mapped_type>;
+                x->rightChild->key=key;
+                x->rightChild->value=value;
+                x->rightChild->parent=x;
+                x->rightChild->rightChild = NULL;
+                x->rightChild->leftChild = NULL;
+                x->rightChild->height = 1;
+            }
+            else
+            {
+                insert(key, value, x->rightChild);
+            }
+        }
+        else
+            return;
+        x->height = getHeight(x);
+
+        int balance = getBalance(x);
+
+        if (balance > 1 && key < x->leftChild->key)  
+            rightRotation(x);  
+  
+        // Right Right Case  
+        else
+        if (balance < -1 && key > x->rightChild->key)  
+            leftRotation(x);  
+        // Left Right Case  
+        else
+        if (balance > 1 && key > x->leftChild->key)  
+        {  
+            leftRotation(x->leftChild);  
+            rightRotation(x);
+        }  
+    
+        // Right Left Case  
+        else
+        if (balance < -1 && key < x->rightChild->key)  
+        {  
+            rightRotation(x->rightChild);  
+            leftRotation(x);
+        }  
+    }
     /*!
      * dodaje wpis do slownika przez podanie pary klucz-wartosc
      */
@@ -433,7 +556,7 @@ class TreeMap
             return;
         }
         //cout << x->key << endl<<" l:" << x->leftChild->key <<endl << " r:" << x->rightChild->key << endl;   
-        cout << x->key << " ";
+        cout << x->key <<":"<<x->height<<":"<<(x->parent==NULL?0:x->parent->key)<< " ";
         write(x->leftChild);
         write(x->rightChild);
     }
