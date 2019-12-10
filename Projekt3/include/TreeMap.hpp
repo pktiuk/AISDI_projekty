@@ -1,3 +1,6 @@
+#ifndef TREE
+#define TREE
+
 #include <iostream>
 #include <chrono>
 #include <utility>
@@ -567,4 +570,4 @@ private:
 
 
 
-
+#endif
