@@ -148,7 +148,7 @@ class TreeMap
         element<key_type, mapped_type>* b = a->rightChild;
         element<key_type, mapped_type>* b1 = b->leftChild;
 
-        cout<<(b==NULL?-1:b->key) << "!" << (b1==NULL?-1:b1->key)<< "\n";
+        cout<<(b==NULL?"-1":b->key) << "!" << (b1==NULL?"-1":b1->key)<< "\n";
         if(a->parent != NULL)
         {
             if(a->parent->leftChild == a)
