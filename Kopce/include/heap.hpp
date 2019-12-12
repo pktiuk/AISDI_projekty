@@ -1,3 +1,6 @@
+#ifndef HEAP
+#define HEAP
+
 #include <utility>
 #include <vector>
 
@@ -46,3 +49,4 @@ int Heap4<KeyType, ValueType>::getHeight()
 
 
 
+#endif
