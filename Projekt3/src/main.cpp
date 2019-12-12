@@ -12,10 +12,10 @@ int main()
   for (int i = 10; i < 50000; i = i + 100)
   {
     Benchmark<std::chrono::nanoseconds> b;
-    TreeMap<string, int> tree = read2tree("pan-tadeusz.txt", 1000);
+    TreeMap<string, int> tree = read2tree("pan-tadeusz.txt", i);
     myTime = b.elapsed();
     Benchmark<std::chrono::nanoseconds> b2;
-    map<string, int> sysMap = read2map("pan-tadeusz.txt", 1000);
+    map<string, int> sysMap = read2map("pan-tadeusz.txt", i);
     sysTime = b2.elapsed();
     cout << i << " " << myTime << " " << sysTime << endl;
   }
