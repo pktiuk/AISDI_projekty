@@ -18,7 +18,7 @@ void visualizeHeap(Heap4<KeyType,ValueType> & heap)
             nextEndl+=nodesOnNextHeight;
             nodesOnNextHeight*=4;
         }
-        std::cout<<heap.heap[i].get<KeyType>();
+        std::cout<<heap.heap[i].first;
         int parentOfCurrent=i/4;
         if(parentOfCurrent == (i+1)/4)
         {
