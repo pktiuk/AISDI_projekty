@@ -144,11 +144,16 @@ class TreeMap
     void leftRotation(element<key_type, mapped_type>* a)
     {
 
-        cout << "left\n" << a->key <<"\n";
+        //cout << "left\n" << a->key <<"\n";
         element<key_type, mapped_type>* b = a->rightChild;
-        element<key_type, mapped_type>* b1 = b->leftChild;
+        element<key_type, mapped_type>* b1;
+        if( b == NULL )
+            b1 = NULL;
+        else
+            b1 = b->leftChild;
+        
 
-        cout<<(b==NULL?"-1":b->key) << "!" << (b1==NULL?"-1":b1->key)<< "\n";
+        //cout<<(b==NULL?"-1":b->key) << "!" << (b1==NULL?"-1":b1->key)<< "\n";
         if(a->parent != NULL)
         {
             if(a->parent->leftChild == a)
@@ -157,12 +162,15 @@ class TreeMap
                 a->parent->rightChild = b;
             
         }
-        b->parent = a->parent;
+        if( b != NULL )
+            b->parent = a->parent;
         a->parent = b;
-        b->leftChild = a;
+        if( b!= NULL )
+            b->leftChild = a;
         a->rightChild = b1;
         a->height = getHeight(a);
-        b->height = getHeight(b);
+        if( b != NULL)
+            b->height = getHeight(b);
 
         //cout<<(b->leftChild==NULL?-1:b->leftChild->key) << "!" <<(b->rightChild==NULL?-1:b->rightChild->key) << "!" << (b1==NULL?-1:b1->key)<< "\n";
 
@@ -173,9 +181,14 @@ class TreeMap
 
     void rightRotation(element<key_type, mapped_type>* a)
     {
-        cout << "right\n" << a->key <<"\n";
+        //cout << "right\n" << a->key <<"\n";
         element<key_type, mapped_type>* b = a->leftChild;
-        element<key_type, mapped_type>* b1 = b->rightChild;
+        element<key_type, mapped_type>* b1;
+        if( b == NULL )
+            b1 = NULL;
+        else
+            b1 = b->rightChild;
+        
         /*y->leftChild = x->rightChild;
         x->rightChild = y;
         x->parent = y->parent;
@@ -190,12 +203,15 @@ class TreeMap
             a->parent->rightChild = b;
             
         }
-        b->parent = a->parent;
+        if( b != NULL )
+            b->parent = a->parent;
         a->parent = b;
-        b->rightChild = a;
+        if( b!= NULL )
+            b->rightChild = a;
         a->leftChild = b1;
         a->height = getHeight(a);
-        b->height = getHeight(b);
+        if( b != NULL )
+            b->height = getHeight(b);
 
         if( a == root )
             root = b;
@@ -203,7 +219,7 @@ class TreeMap
 
     void lr(element<key_type, mapped_type>* b)
     {
-        cout << "lr\n";
+        //cout << "lr\n";
         element<key_type, mapped_type>* c = b->rightChild;
         //element<key_type, mapped_type>* a = b->parent;
         rightRotation(c);
@@ -213,7 +229,7 @@ class TreeMap
 
     void rl(element<key_type, mapped_type>* b)
     {
-        cout << "rl\n";
+        //cout << "rl\n";
         element<key_type, mapped_type>* c = b->leftChild;
         //element<key_type, mapped_type>* a = b->parent;
         leftRotation(c);
@@ -559,7 +575,7 @@ class TreeMap
             return;
         }
         //cout << x->key << endl<<" l:" << x->leftChild->key <<endl << " r:" << x->rightChild->key << endl;   
-        cout << x->key <<":"<<x->height<<":"<<(x->parent==NULL?0:x->parent->key)<< " ";
+        cout << x->key << " ";
         write(x->leftChild);
         write(x->rightChild);
     }
