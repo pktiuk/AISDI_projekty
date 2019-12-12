@@ -1,6 +1,10 @@
+#ifndef TREE
+#define TREE
+
 #include <iostream>
 #include <chrono>
 #include <utility>
+#include <queue>
 
 using namespace std;
 /*!
@@ -141,11 +145,13 @@ class TreeMap
     void leftRotation(element<key_type, mapped_type>* a)
     {
 
-        cout << "left\n" << a->key <<"\n";
+        //cout << "left " << a->key <<"\n";
         element<key_type, mapped_type>* b = a->rightChild;
-        element<key_type, mapped_type>* b1 = b->leftChild;
+        element<key_type, mapped_type>* b1;
+        b1 = b->leftChild;
+        
 
-        cout<<(b==NULL?-1:b->key) << "!" << (b1==NULL?-1:b1->key)<< "\n";
+        //cout<<(b==NULL?"-1":b->key) << "!" << (b1==NULL?"-1":b1->key)<< "\n";
         if(a->parent != NULL)
         {
             if(a->parent->leftChild == a)
@@ -158,21 +164,35 @@ class TreeMap
         a->parent = b;
         b->leftChild = a;
         a->rightChild = b1;
+        if( b1 != NULL)
+            b1->parent = a;
         a->height = getHeight(a);
         b->height = getHeight(b);
 
-        //cout<<(b->leftChild==NULL?-1:b->leftChild->key) << "!" <<(b->rightChild==NULL?-1:b->rightChild->key) << "!" << (b1==NULL?-1:b1->key)<< "\n";
-
         if( a == root )
             root = b;
+
+        /*
+        cout << b->key << " " << b->height << " ";
+        if( b->leftChild != NULL )
+            cout << b->leftChild->key << " " << b->leftChild->height << " ";
+        else 
+            cout << "NULL ";
+        if( b->rightChild!= NULL )
+            cout << b->rightChild->key <<" " << b->rightChild->height << "\n";
+        else
+            cout << "NULL\n";
+        */
 
     }
 
     void rightRotation(element<key_type, mapped_type>* a)
     {
-        cout << "right\n" << a->key <<"\n";
+        //cout << "right " << a->key <<"\n";
         element<key_type, mapped_type>* b = a->leftChild;
-        element<key_type, mapped_type>* b1 = b->rightChild;
+        element<key_type, mapped_type>* b1;
+        b1 = b->rightChild;
+        
         /*y->leftChild = x->rightChild;
         x->rightChild = y;
         x->parent = y->parent;
@@ -191,6 +211,8 @@ class TreeMap
         a->parent = b;
         b->rightChild = a;
         a->leftChild = b1;
+        if( b1 != NULL )
+            b1->parent = a;
         a->height = getHeight(a);
         b->height = getHeight(b);
 
@@ -200,7 +222,7 @@ class TreeMap
 
     void lr(element<key_type, mapped_type>* b)
     {
-        cout << "lr\n";
+        //cout << "lr\n";
         element<key_type, mapped_type>* c = b->rightChild;
         //element<key_type, mapped_type>* a = b->parent;
         rightRotation(c);
@@ -210,7 +232,7 @@ class TreeMap
 
     void rl(element<key_type, mapped_type>* b)
     {
-        cout << "rl\n";
+        //cout << "rl\n";
         element<key_type, mapped_type>* c = b->leftChild;
         //element<key_type, mapped_type>* a = b->parent;
         leftRotation(c);
@@ -306,129 +328,11 @@ class TreeMap
         
         }
 
-        /*
-        element<key_type, mapped_type>* prev;
-        if(isEmpty())
-        {
-            root = new element<key_type, mapped_type>;
-            root->key = key;
-            root->value = value;
-            root->leftChild = NULL;
-            root->rightChild = NULL;
-            root->parent = NULL;
-        }
-        else
-        {
-            element<key_type, mapped_type>* currEl=root;
-            while(true)
-            {
-                
-                if(currEl->key==key)
-                    return;
-                if(currEl->key<key)
-                {
-                    if(currEl->rightChild==NULL)
-                    {
-                        currEl->rightChild=new element<key_type, mapped_type>;
-                        currEl->rightChild->key=key;
-                        currEl->rightChild->value=value;
-                        currEl->rightChild->parent=currEl;
-                        currEl->rightChild->rightChild = NULL;
-                        currEl->rightChild->leftChild = NULL;
-
-                        currEl->balance -= 1;
-                        prev = currEl->rightChild;
-                        break;
-                    }else
-                    {
-                        currEl=currEl->rightChild;
-                    }
-                    
-                }else if(currEl->key>key)
-                {
-                    if(currEl->leftChild==NULL){
-                        currEl->leftChild=new element<key_type, mapped_type>;
-                        currEl->leftChild->key=key;
-                        currEl->leftChild->value=value;
-                        currEl->leftChild->parent=currEl;
-                        currEl->leftChild->rightChild = NULL;
-                        currEl->leftChild->leftChild = NULL;
-
-                        currEl->balance += 1;
-                        prev = currEl->leftChild;
-                        break;
-                    }else
-                    {
-                        currEl=currEl->leftChild;
-                    }
-                    
-                }
-            }
-        
-            
-            while(currEl!=NULL)
-            {
-                if(currEl->balance != 0)
-                    break;
-                if(currEl->leftChild == prev)
-                {
-                    currEl->balance = 1;
-                }
-                else
-                    currEl->balance = -1;
-                prev = currEl;
-                currEl = currEl->parent;
-            }
-            if(currEl == NULL)
-            {
-                return;
-            }
-            */
-            /*
-            if(currEl->balance == -1)
-            {
-                if(currEl->leftChild == prev)
-                {
-                    currEl->balance = 0;
-                }
-                else
-                if(prev->balance == 1)
-                {
-                    rl(prev);
-                }
-                else
-                {
-                    rightRotataion(prev);
-                }
-                
-            }
-            else
-            {
-                if(currEl->rightChild == prev)
-                {
-                    currEl->balance = 0;
-                    return;
-                }
-                if(currEl->balance == -1)
-                {
-                    lr(prev); //????????? moze currEl
-                }
-                else
-                {
-                    leftRotation(prev);
-                }
-            }
-            
-
-            
-
-            //Update Heights
-        }
-        */
     }
 
     void insert(const key_type& key, const mapped_type &value, element<key_type, mapped_type>* x)
     {
+        //cout << x->key << "\n";
         if(key < x->key)
         {
             if( x->leftChild == NULL )
@@ -458,6 +362,7 @@ class TreeMap
                 x->rightChild->rightChild = NULL;
                 x->rightChild->leftChild = NULL;
                 x->rightChild->height = 1;
+                //cout << x->key << "\n";
             }
             else
             {
@@ -466,8 +371,12 @@ class TreeMap
         }
         else
             return;
+
+        
         x->height = getHeight(x);
 
+        //cout << x->key << " " << x->height << " "<< getBalance(x) <<"u\n";
+        
         int balance = getBalance(x);
 
         if (balance > 1 && key < x->leftChild->key)  
@@ -548,17 +457,74 @@ class TreeMap
         throw std::runtime_error("TODO: size");
     }
 
-    void write(element<key_type, mapped_type>* x)
+    queue<element<key_type, mapped_type>*>q;
+    queue<element<key_type, mapped_type>*>q1;
+    int niepuste = 1;
+
+    void write()
     {
+        while(!q.empty())
+            q.pop();
+        while(!q1.empty())
+            q1.pop();
+        if( niepuste == 1 && q.size() == 0 && root != NULL )
+            q.push(root);
+
+        while( niepuste > 0 )
+        {
+            element<key_type, mapped_type>* tmp;
+            while (!q.empty())
+            {
+                tmp = q.front();
+                if( tmp == NULL )
+                {
+                    q1.push(NULL);
+                    q1.push(NULL);
+                    cout << " NULL ";
+                }
+                else
+                {
+                    niepuste--;
+                    
+                    cout << tmp->key << " ";
+                    
+                    if(tmp->leftChild == NULL)
+                        q1.push(NULL);
+                    else
+                    {
+                        niepuste ++;
+                        q1.push(tmp->leftChild);
+                    }
+
+                    if(tmp->rightChild == NULL)
+                        q1.push(NULL);
+                    else
+                    {
+                        niepuste++;
+                        q1.push(tmp->rightChild);
+                    }  
+                }
+                q.pop();
+            }
+            while(!q1.empty())
+            {
+                q.push(q1.front());
+                q1.pop();
+            }
+            cout << "\n";
+        }
+
+        /*
         if(x == NULL)
         {
             cout << "\n";
             return;
         }
+        */
         //cout << x->key << endl<<" l:" << x->leftChild->key <<endl << " r:" << x->rightChild->key << endl;   
-        cout << x->key <<":"<<x->height<<":"<<(x->parent==NULL?0:x->parent->key)<< " ";
-        write(x->leftChild);
-        write(x->rightChild);
+        //cout << x->key << " ";
+        //write(x->leftChild);
+        //write(x->rightChild);
     }
     
 private:
@@ -567,4 +533,4 @@ private:
 
 
 
-
+#endif
