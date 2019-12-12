@@ -1,25 +1,24 @@
-#include <iostream>
 #include <TreeMap.hpp>
-#include <loadWords.hpp>
+#include <iostream>
 #include <load.hpp>
-
+#include <loadWords.hpp>
+#include <map>
 
 using namespace std;
 
 int main()
 {
-    TreeMap<string,int> tree = read2tree("pan-tadeusz.txt", 1000);
+  size_t sysTime, myTime;
+  for (int i = 10; i < 50000; i = i + 100)
+  {
+    Benchmark<std::chrono::nanoseconds> b;
+    TreeMap<string, int> tree = read2tree("pan-tadeusz.txt", 1000);
+    myTime = b.elapsed();
+    Benchmark<std::chrono::nanoseconds> b2;
+    map<string, int> sysMap = read2map("pan-tadeusz.txt", 1000);
+    sysTime = b2.elapsed();
+    cout << i << " " << myTime << " " << sysTime << endl;
+  }
 
-    //tree.insert(0,0);
-    //cout << tree.root->key << "\n";
-    //cout << tree.root->leftChild->key << "\n";
-    //cout << tree.root->rightChild->key << "\n";
-    //cout << "write\n";
-    //tree.write();
-
-    //cout << tree.value("czyli") << "\n";
-    cout << tree.value("Dom") << "\n";
-   
-
-    return 0;
+  return 0;
 }
