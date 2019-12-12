@@ -25,7 +25,6 @@ TreeMap<string, int> read2tree(string filename, int num = INT32_MAX)
 
   while (inFile >> word && i < num)
   {
-    cout << word << " " << i << "\n";
     tree.insert(word, i);
     i++;
   }
