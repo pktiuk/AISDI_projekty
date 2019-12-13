@@ -3,51 +3,77 @@
 
 #include <utility>
 #include <vector>
+#include<stdexcept>
+	
 
 using namespace std;
 
-int const D = 4;
+int const D = 3;
 
 template <typename KeyType, typename ValueType>
-class Heap4
+class Heap3
 {
 public:
-    using KeyValueType = std::pair<const KeyType, ValueType>;
+    using KeyValueType = std::pair<KeyType, ValueType>;
 
     bool empty() const noexcept
     {
-        return true;
+        if(heap.size() == 0)
+            return true;
+        return false;
     }
+
     void insert(KeyType const & key, ValueType const & value);
     void insert(KeyValueType const & key_value);
-    KeyValueType const & peek() const noexcept;
+    KeyValueType const & peek() const
+    {
+        if(!heap.empty())
+            return heap[0];
+        else
+        {
+            std::logic_error e("messag");
+            throw e;
+        }
+    }
     KeyValueType pop() noexcept;
-    size_t size() const noexcept;
+    size_t size() const noexcept
+    {
+        return heap.size();
+    }
 
     vector<pair<KeyType, ValueType> >heap;
 
     int getHeight();
 
-    template<typename StreamType> void print(StreamType& stream) const;
+    template<typename StreamType> void print(StreamType& stream) const
+    {
 
-    Heap4(/* args */){};
-    ~Heap4(){};
+    }
+
+    Heap3(/* args */){};
+    ~Heap3(){};
 };
 
 template <typename KeyType, typename ValueType>
-std::pair<const KeyType, ValueType> Heap4<KeyType, ValueType>::pop() noexcept
+std::pair<KeyType, ValueType> Heap3<KeyType, ValueType>::pop() noexcept
 {
     pair<const KeyType, ValueType> result = heap[0];
     heap[0] = heap[heap.size() - 1];
     heap.pop_back();
     int current = 0;
-    while( current*D+D < heap.size() )
+    while( current*D + 1 < heap.size() )
     {
-        int maksimum = max(max(heap[current*D+1], heap[current*D +2]), max(heap[current*D+3], heap[current*D +4]));
-        if(maksimum <= heap[current])
+        int minimum = heap[current*D+1].first;
+        for( int i = 1; i < 3; ++i )
+        {
+            if(current*D + i < heap.size())
+                minimum = min(minimum, heap[current*D+i].first);
+        }
+        
+        if(minimum >= heap[current].first)
             break;
         int next = current*D+1;
-        while(heap[next] != maksimum)
+        while(heap[next].first != minimum)
         {
             next++;
         }
@@ -61,21 +87,20 @@ std::pair<const KeyType, ValueType> Heap4<KeyType, ValueType>::pop() noexcept
 }
 
 template <typename KeyType, typename ValueType>
-void Heap4<KeyType, ValueType>::insert(KeyType const & key, ValueType const & value)
+void Heap3<KeyType, ValueType>::insert(KeyType const & key, ValueType const & value)
 {
     insert(make_pair(key, value));
 }
 
 template <typename KeyType, typename ValueType>
-void Heap4<KeyType, ValueType>::insert(std::pair<const KeyType, ValueType> const & key_value)
+void Heap3<KeyType, ValueType>::insert(std::pair<KeyType, ValueType> const & key_value)
 {
-    cout<<"insert\n";
     heap.push_back(key_value);
     
     int myNumber = heap.size()-1;
     int parent = (myNumber-1)/D;
 
-    while( myNumber != 0 && heap[parent] < heap[myNumber] )
+    while( myNumber != 0 && heap[parent] > heap[myNumber] )
     {
         std::pair<KeyType, ValueType> tmp = heap[parent];
         heap[parent] = make_pair(heap[myNumber].first, heap[myNumber].second);
@@ -90,7 +115,7 @@ void Heap4<KeyType, ValueType>::insert(std::pair<const KeyType, ValueType> const
 
 
 template <typename KeyType, typename ValueType>
-int Heap4<KeyType, ValueType>::getHeight()
+int Heap3<KeyType, ValueType>::getHeight()
 {
     if(heap.empty())
         return 0;
@@ -98,7 +123,7 @@ int Heap4<KeyType, ValueType>::getHeight()
     int i = 0;
     while( i < heap.size()-1 )
     {
-        i = i * 4 + 4 ;
+        i = i * 3 + 3 ;
         height ++;
     }
     return height;
