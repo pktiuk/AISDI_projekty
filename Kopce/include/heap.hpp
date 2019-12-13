@@ -10,6 +10,8 @@ using namespace std;
 
 int const D = 3;
 
+
+
 template <typename KeyType, typename ValueType>
 class Heap3
 {
@@ -47,7 +49,7 @@ public:
 
     template<typename StreamType> void print(StreamType& stream) const
     {
-
+       visualizeHeap(this,stream);
     }
 
     Heap3(/* args */){};
@@ -129,6 +131,28 @@ int Heap3<KeyType, ValueType>::getHeight()
     return height;
 }
 
+template <typename KeyType, typename ValueType,typename StreamType>
+void visualizeHeap(Heap3<KeyType,ValueType> & heap,StreamType stream,  int nr =0, int depth =0)
+{
 
+    for(int i=0;i<depth;i++)
+    {
+        stream<<"    ";
+    }
+    stream<<heap.heap[nr].first<<endl;
+    if(heap.heap.size()>=nr*3+1)
+    {
+        visualizeHeap(heap,stream,nr*3+1,depth+1);
+    }
+    if(heap.heap.size()>=nr*3+2)
+    {
+        visualizeHeap(heap,stream,nr*3+2,depth+1);
+    }
+    if(heap.heap.size()>=nr*3+3)
+    {
+        visualizeHeap(heap,stream,nr*3+3,depth+1);
+    }
+    return;
+}
 
 #endif
