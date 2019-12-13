@@ -4,7 +4,7 @@
 using namespace std;
 
 template <typename KeyType, typename ValueType>
-void visualizeHeap(Heap4<KeyType,ValueType> & heap, int nr =0, int depth =0)
+void visualizeHeap(Heap3<KeyType,ValueType> & heap, int nr =0, int depth =0)
 {
 
     for(int i=0;i<depth;i++)
