@@ -440,7 +440,8 @@ class TreeMap
             else
                 tmp = tmp->rightChild;
         }
-        return NULL;
+        cerr<<"nie znaleziono takiego elementu\n";
+	return root->value;
     }
 
     /*!
