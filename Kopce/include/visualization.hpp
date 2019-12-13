@@ -1,32 +1,28 @@
 #include <heap.hpp>
 #include <iostream>
 
-
+using namespace std;
 
 template <typename KeyType, typename ValueType>
-void visualizeHeap(Heap4<KeyType,ValueType> & heap)
+void visualizeHeap(Heap4<KeyType,ValueType> & heap, int nr =0, int depth =0)
 {
-    int height=heap.getHeight();
-    int nextEndl=1;
-    int currHeight=1;
-    int nodesOnNextHeight=4;
-    for (int i = 0 - 1; i < heap.heap.size(); i++)
+
+    for(int i=0;i<depth;i++)
     {
-        if(i==nextEndl)
-        {
-            std::cout<<std::endl;
-            nextEndl+=nodesOnNextHeight;
-            nodesOnNextHeight*=4;
-        }
-        std::cout<<heap.heap[i].first;
-        int parentOfCurrent=i/4;
-        if(parentOfCurrent == (i+1)/4)
-        {
-            std::cout<<"       ";
-        }else
-        {
-            std::cout<<"   |   ";
-        }
+        cout<<"    ";
+    }
+    cout<<heap.heap[nr].first<<endl;
+    if(heap.heap.size()>=nr*3+1)
+    {
+        visualizeHeap(heap,nr*3+1,depth+1);
+    }
+    if(heap.heap.size()>=nr*3+2)
+    {
+        visualizeHeap(heap,nr*3+2,depth+1);
+    }
+    if(heap.heap.size()>=nr*3+3)
+    {
+        visualizeHeap(heap,nr*3+3,depth+1);
     }
     return;
 }
