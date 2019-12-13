@@ -29,7 +29,7 @@ TreeMap<string, int> read2tree(string filename, int num = INT32_MAX)
     tree.insert(word, i);
     i++;
   }
-
+  inFile.close();
   return tree;
 }
 
@@ -55,6 +55,7 @@ map<string,int> read2map(string filename, int num = INT32_MAX)
     sysMap.emplace(word,i);
     i++;
   }
-
+  
+  inFile.close();
   return sysMap;
 }
