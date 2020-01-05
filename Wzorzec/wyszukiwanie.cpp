@@ -66,9 +66,11 @@ std::vector<int>findKMP(std::string const & str, std::string const & text)
 
 int indeks(char c)
 {
-    return c - 'a' + 1;
+    return c - 'a';
 }
 
+
+int shiftBM[MAX_SIZE];
 /*
  * nie dziala
 */
@@ -78,27 +80,33 @@ std::vector<int>findBM(std::string const & str, std::string const & text)
 
     for( int i = 0; i < 26; ++i )
     {
-        shift[i] = str.size();
+        shiftBM[i] = -1;
     }
     for( int i = 0; i < str.size(); ++i )
     {
-        shift[indeks(str[i])] = str.size() - i - 1;
+        shiftBM[indeks(str[i])] = i;
     }
 
-    for( int i = str.size() - 1, j = str.size() - 1; j > 0; --i, --j )
+    int s = 0;
+
+    while( s <= (text.size() - str.size()))
     {
-        while( text[i] != str[j] )
+        int j = str.size() - 1;
+
+        while ( j >= 0 && str[j] == text[ s + j ] )
+            --j;
+        
+        if( j < 0 )
         {
-            int x = shift[indeks(text[i])];
-            if( str.size() - j > x )
-                i += str.size() - j;
+            v.push_back(s);
+            if( s + str.size() < text.size() )
+                s += str.size() - shiftBM[indeks(text[ s + str.size() ])];
             else
-                i += x;
-            if( i >= text.size() )
-                return v;
-            j = str.size() - 1;
+                s += 1;
+            
         }
-        v.push_back(i);
+        else
+            s += max( 1, j - shiftBM[indeks( text[ s + j ])]);        
     }
     return v;
 }
@@ -234,6 +242,7 @@ bool testKMP(int s)
     return false;
 }
 
+//geeksforgeeks
 bool testBM(int s)
 {
     srand(s);
@@ -242,20 +251,13 @@ bool testBM(int s)
     string text = "";
     string str = "";
 
-    for( int i = 0; i < 2; ++i )
+    for( int i = 0; i < 6; ++i )
         str += randomChar();
-    for( int i = 0; i < 20; ++i )
+    for( int i = 0; i < 200000; ++i )
         text += randomChar();
-
-    cout << text << " " << str << "\n";
 
     vN = findN(str, text);
     v = findBM(str, text);
-
-    cout << "vN\n";
-    write(vN);
-    cout << "v\n";
-    write(v);
 
     if( v == vN )
         return true;
@@ -271,13 +273,13 @@ int main()
         cout<<"ERROR\n";
 
     cout << "KMP: ";
-    if(testKMP(1))
+    if(testKMP(2))
         cout << "OK\n";
     else
         cout << "ERROR\n";
 
     cout << "BM: ";
-    if(testBM(1))
+    if(testBM(2))
         cout << "OK\n";
     else
         cout << "ERROR\n";
