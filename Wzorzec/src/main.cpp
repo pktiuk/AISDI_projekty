@@ -9,12 +9,6 @@ int main()
     else
         cout<<"ERROR\n";
 
-    cout << "KMP: ";
-    if(testKMP(2))
-        cout << "OK\n";
-    else
-        cout << "ERROR\n";
-
     cout << "BM: ";
     if(testBM(2))
         cout << "OK\n";

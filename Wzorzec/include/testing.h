@@ -1,5 +1,9 @@
 #include<searching.h>
 
+char randomChar()
+{
+    return 'a' + rand() % 3;
+}
 
 bool testN()
 {
@@ -105,28 +109,7 @@ bool testN()
     return true;
 }
 
-bool testKMP(int s)
-{
-    srand(s);
-    vector<int> v;
-    vector<int> vN;
-    string text = "";
-    string str = "";
 
-    for( int i = 0; i < 6; ++i )
-        str += randomChar();
-    for( int i = 0; i < 200000; ++i )
-        text += randomChar();
-
-    vN = findN(str, text);
-    v = findKMP(str, text);
-
-    if( v == vN )
-        return true;
-    return false;
-}
-
-//geeksforgeeks
 bool testBM(int s)
 {
     srand(s);
