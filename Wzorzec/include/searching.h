@@ -46,6 +46,9 @@ std::vector<int>findBM(std::string const & str, std::string const & text)
 {
     vector<int>v;
 
+    if( str == "" || text == "" || str.size() > text.size() )
+        return v;
+
     for( int i = 0; i < 26; ++i )
     {
         shiftBM[i] = -1;

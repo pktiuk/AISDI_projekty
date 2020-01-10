@@ -39,7 +39,7 @@ bool testN()
     v.clear();
 
     /* test 3 */
-    text = "fualhdakvjsboieqhaudfl.asvap'parihwral;hgsfbnciwrahw";
+    text = "fualhdakvjsboieqhaudflasvapparihwralhgsfbnciwrahw";
     str = "";
 
     v = findN(str, text);
@@ -109,8 +109,112 @@ bool testN()
     return true;
 }
 
+bool testBM()
+{
+    vector<int> v;
+    string text;
+    string str;
+    
 
-bool testBM(int s)
+    /* test 1 */
+    text = "abbababa";
+    str = "ab";
+
+    v = findBM(str, text);
+
+    if( v.size() != 3 ) 
+        return false;
+    if( v[0] != 0 || v[1] != 3 || v[2] != 5 )
+        return false;
+
+    v.clear();
+
+    /* test 2 */
+    text = "alamakotaatamaramapsa";
+    str = "ta";
+
+    v = findBM(str, text);
+
+    if( v.size() != 2 ) 
+        return false;
+    if( v[0] != 7 || v[1] != 10)
+        return false;
+
+    v.clear();
+
+    /* test 3 */
+    text = "fualhdakvjsboieqhaudflasvapparihwralhgsfbnciwrahw";
+    str = "";
+
+    v = findBM(str, text);
+
+    if( v.size() != 0 ) 
+        return false;
+
+    v.clear();
+
+    /* test 4 */
+    text = "";
+    str = "napis";
+
+    v = findBM(str, text);
+
+    if( v.size() != 0 ) 
+        return false;
+
+    v.clear();
+
+    /* test 5 */
+    text = "";
+    str = "";
+
+    v = findBM(str, text);
+
+    if( v.size() != 0 ) 
+        return false;
+
+    v.clear();
+
+    /* test 6 */
+    text = "gjsfbjvuetkbvlulsapwrgphdfadfasghsfsfdshsdghkry";
+    str = "gjsfbjvuetkbvlulsapwrgphdfadfasghsfsfdshsdghkry";
+
+    v = findBM(str, text);
+
+    if( v.size() != 1 ) 
+        return false;
+    if( v[0] != 0)
+        return false;
+
+    v.clear();
+
+    /* test 7 */
+    text = "gjsfbjvuetkbvlulsapwrgphdfadfasghsfsfdshsdghkr";
+    str = "gjsfbjvuetkbvlulsapwrgphdfadfasghsfsfdshsdghkry";
+
+    v = findBM(str, text);
+
+    if( v.size() != 0 ) 
+        return false;
+
+    v.clear();
+
+    /* test 8 */
+    text = "qwertyuiopasdfghjklzxcvbnmqwertyuiopasdfghjklzxcvbnm";
+    str = "qwa";
+
+    v = findBM(str, text);
+
+    if( v.size() != 0 ) 
+        return false;
+
+    v.clear();
+
+    return true;
+}
+
+
+bool autoTestBM(int s)
 {
     srand(s);
     vector<int> v;
