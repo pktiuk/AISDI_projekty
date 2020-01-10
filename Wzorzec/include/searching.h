@@ -58,26 +58,26 @@ std::vector<int>findBM(std::string const & str, std::string const & text)
         shiftBM[indeks(str[i])] = i;
     }
 
-    int s = 0;
+    int i = 0;
 
-    while( s <= (text.size() - str.size()))
+    while( i <= (text.size() - str.size()))
     {
         int j = str.size() - 1;
 
-        while ( j >= 0 && str[j] == text[ s + j ] )
+        while ( j >= 0 && str[j] == text[ i + j ] )
             --j;
         
         if( j < 0 )
         {
-            v.push_back(s);
-            if( s + str.size() < text.size() )
-                s += str.size() - shiftBM[indeks(text[ s + str.size() ])];
+            v.push_back(i);
+            if( i + str.size() < text.size() )
+                i += str.size() - shiftBM[indeks(text[ i + str.size() ])];
             else
-                s += 1;
+                i += 1;
             
         }
         else
-            s += max( 1, j - shiftBM[indeks( text[ s + j ])]);        
+            i += max( 1, j - shiftBM[indeks( text[ i + j ])]);        
     }
     return v;
 }
