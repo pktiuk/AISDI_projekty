@@ -9,7 +9,7 @@
 
 using namespace std;
 
-const int MAX_SIZE = 1000000;
+const int NUM_OF_CHARS = 26;
 
 
 std::vector<int>findN(std::string const & str, std::string const & text)
@@ -41,7 +41,7 @@ int indeks(char c)
 }
 
 
-int shiftBM[MAX_SIZE];
+int shiftBM[NUM_OF_CHARS];
 std::vector<int>findBM(std::string const & str, std::string const & text)
 {
     vector<int>v;
@@ -49,7 +49,7 @@ std::vector<int>findBM(std::string const & str, std::string const & text)
     if( str == "" || text == "" || str.size() > text.size() )
         return v;
 
-    for( int i = 0; i < 26; ++i )
+    for( int i = 0; i < NUM_OF_CHARS; ++i )
     {
         shiftBM[i] = -1;
     }
