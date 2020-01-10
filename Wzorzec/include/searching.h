@@ -77,10 +77,12 @@ std::vector<int>findBM(std::string const & str, std::string const & text)
             
         }
         else
+        {
             if( j - shiftBM[indeks( text[ i + j ])] > 0 )
                 i += j - shiftBM[indeks( text[ i + j ])];
             else
                 ++i;    
+        }
     }
     return v;
 }
