@@ -19,7 +19,7 @@ typedef struct node
   int distance;
   int distance_to_beginning;
   int previous_node;
-}node;
+} node;
 
 typedef class graph
 {
@@ -39,7 +39,7 @@ public:
   void updateNeighbour(int current_nr, int neighbour_nr);
   int getFromQueque();
   void visualize();
-}graph;
+} graph;
 
 graph::graph(const char *filename)
     : found_way(false)
@@ -50,7 +50,7 @@ graph::graph(const char *filename)
   {
     string s;
     file >> s;
-    for (int i = 0; i< X_SIZE; i++)
+    for (int i = 0; i < X_SIZE; i++)
     {
       nodes[i][j].distance = s[i] - '0';
       nodes[i][j].distance_to_beginning = INT32_MAX;
@@ -70,12 +70,12 @@ int graph::getFromQueque()
   int smallestDistance = INT32_MAX;
   for (list<int>::iterator iter = queque.begin(); iter != queque.end(); iter++)
   {
-    int currDistance=nodes i_to_loc(*iter).distance_to_beginning;
+    int currDistance = nodes i_to_loc(*iter).distance_to_beginning;
     if (currDistance < smallestDistance)
     {
       smallestDistance = nodes i_to_loc(*iter).distance_to_beginning;
       smallestIter = iter;
-      int zm=*iter;
+      int zm = *iter;
     }
   }
 
@@ -91,8 +91,8 @@ void graph::updateNeighbour(int current_nr, int neighbour_nr)
     nodes i_to_loc(neighbour_nr).previous_node = current_nr;
     nodes i_to_loc(neighbour_nr).distance_to_beginning = new_distance;
   }
-  if(neighbour_nr==X_SIZE*Y_SIZE-1)
-    found_way=true;
+  if (neighbour_nr == X_SIZE * Y_SIZE - 1)
+    found_way = true;
 }
 
 void graph::dijkstra()
@@ -126,50 +126,49 @@ void graph::dijkstra()
   }
 }
 
-
 void graph::visualize()
 {
-  cout<<"Map:\n";
+  cout << "Map:\n";
   for (int i = 0; i < X_SIZE; i++)
   {
     for (size_t j = 0; j < Y_SIZE; j++)
     {
-      cout<<nodes[j][i].distance;
+      cout << nodes[j][i].distance;
     }
-    cout<<endl;
+    cout << endl;
   }
-  cout<<endl<<"Found way:\n";
+  cout << endl << "Found way:\n";
 
   char way[X_SIZE][Y_SIZE];
   for (size_t i = 0; i < X_SIZE; i++)
   {
     for (size_t j = 0; j < Y_SIZE; j++)
     {
-      way[i][j]=' ';
+      way[i][j] = ' ';
     }
   }
-  int curr_num=X_SIZE*Y_SIZE-1;
-  while(curr_num!=0)
+  int curr_num = X_SIZE * Y_SIZE - 1;
+  while (curr_num != 0)
   {
-    way i_to_loc(curr_num)=nodes i_to_loc(curr_num).distance+'0';
-    curr_num=nodes i_to_loc(curr_num).previous_node;
-    if(curr_num==-1)
+    way i_to_loc(curr_num) = nodes i_to_loc(curr_num).distance + '0';
+    curr_num = nodes i_to_loc(curr_num).previous_node;
+    if (curr_num == -1)
     {
-      cout<<"ERROR";
+      cout << "ERROR";
       return;
     }
   }
-  way[0][0]='0';
+  way[0][0] = '0';
 
   for (int i = 0; i < X_SIZE; i++)
   {
     for (int j = 0; j < Y_SIZE; j++)
     {
-      cout<<way[j][i];
+      cout << way[j][i];
     }
-    cout<<endl;
+    cout << endl;
   }
-
+  cout << endl << "Distance: " << nodes[X_SIZE - 1][Y_SIZE - 1].distance_to_beginning << endl;
 }
 
 graph::~graph() {}
