@@ -2,6 +2,10 @@
 #include <dijkstra.hpp>
 
 int main() {
-    std::cout << "graph project!" << std::endl;
+    std::cout << "Dijkstra" << std::endl;
     node i;
+    graph g=graph("plik");
+    g.dijkstra();
+    g.visualize();
+
 }
