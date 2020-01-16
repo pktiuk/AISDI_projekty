@@ -46,13 +46,13 @@ graph::graph(const char *filename)
 {
   ifstream file;
   file.open(filename, ios_base::in);
-  for (int i = 0; i < X_SIZE; i++)
+  for (int j = 0; j < Y_SIZE; j++)
   {
     string s;
     file >> s;
-    for (int j = Y_SIZE; j >= 0; j--)
+    for (int i = 0; i< X_SIZE; i++)
     {
-      nodes[i][j].distance = s[j] - '0';
+      nodes[i][j].distance = s[i] - '0';
       nodes[i][j].distance_to_beginning = INT32_MAX;
       nodes[i][j].previous_node = -1;
       queque.push_back(loc_to_i(i, j));
@@ -70,15 +70,17 @@ int graph::getFromQueque()
   int smallestDistance = INT32_MAX;
   for (list<int>::iterator iter = queque.begin(); iter != queque.end(); iter++)
   {
-    if (nodes i_to_loc(*iter).distance_to_beginning < smallestDistance)
+    int currDistance=nodes i_to_loc(*iter).distance_to_beginning;
+    if (currDistance < smallestDistance)
     {
       smallestDistance = nodes i_to_loc(*iter).distance_to_beginning;
       smallestIter = iter;
+      int zm=*iter;
     }
   }
 
   queque.erase(smallestIter);
-  return smallestDistance;
+  return *smallestIter;
 }
 
 void graph::updateNeighbour(int current_nr, int neighbour_nr)
@@ -132,11 +134,41 @@ void graph::visualize()
   {
     for (size_t j = 0; j < Y_SIZE; j++)
     {
-      cout<<nodes[i][j].distance;
+      cout<<nodes[j][i].distance;
     }
     cout<<endl;
   }
   cout<<endl<<"Found way:\n";
+
+  char way[X_SIZE][Y_SIZE];
+  for (size_t i = 0; i < X_SIZE; i++)
+  {
+    for (size_t j = 0; j < Y_SIZE; j++)
+    {
+      way[i][j]=' ';
+    }
+  }
+  int curr_num=X_SIZE*Y_SIZE-1;
+  while(curr_num!=0)
+  {
+    way i_to_loc(curr_num)=nodes i_to_loc(curr_num).distance+'0';
+    curr_num=nodes i_to_loc(curr_num).previous_node;
+    if(curr_num==-1)
+    {
+      cout<<"ERROR";
+      return;
+    }
+  }
+  way[0][0]='0';
+
+  for (int i = 0; i < X_SIZE; i++)
+  {
+    for (int j = 0; j < Y_SIZE; j++)
+    {
+      cout<<way[j][i];
+    }
+    cout<<endl;
+  }
 
 }
 
