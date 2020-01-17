@@ -31,6 +31,7 @@ typedef struct node
 {
   int distance;
   int distance_to_beginning;
+  int distance_to_beginning_with_h;
   int previous_node;
   int h;
 } node;
@@ -69,6 +70,7 @@ graph::graph(const char *filename)
     {
       nodes[i][j].distance = s[i] - '0';
       nodes[i][j].distance_to_beginning = INT32_MAX;
+      nodes[i][j].distance_to_beginning_with_h = INT32_MAX;
       nodes[i][j].previous_node = -1;
       nodes[i][j].h=0;
       queque.push_back(loc_to_i(i, j));
@@ -95,18 +97,19 @@ int graph::getFromQueque()
       int zm = *iter;
     }
   }
-
+    int result=*smallestIter;
   queque.erase(smallestIter);
-  return *smallestIter;
+  return result;
 }
 
 void graph::updateNeighbour(int current_nr, int neighbour_nr)
 {
   int new_distance = nodes i_to_loc(current_nr).distance_to_beginning + nodes i_to_loc(neighbour_nr).distance + nodes i_to_loc(neighbour_nr).h;
-  if (new_distance < nodes i_to_loc(neighbour_nr).distance_to_beginning)
+  if (new_distance < nodes i_to_loc(neighbour_nr).distance_to_beginning_with_h)
   {
     nodes i_to_loc(neighbour_nr).previous_node = current_nr;
-    nodes i_to_loc(neighbour_nr).distance_to_beginning = new_distance;
+    nodes i_to_loc(neighbour_nr).distance_to_beginning_with_h = new_distance;
+    nodes i_to_loc(neighbour_nr).distance_to_beginning = nodes i_to_loc(current_nr).distance_to_beginning + nodes i_to_loc(neighbour_nr).distance;
   }
   if (neighbour_nr == (Y_SIZE - 1)*X_SIZE)
     found_way = true;
@@ -154,6 +157,26 @@ void graph::visualize()
     }
     cout << endl;
   }
+  
+  cout << "H:\n";
+  for (int i = 0; i < X_SIZE; i++)
+  {
+    for (size_t j = 0; j < Y_SIZE; j++)
+    {
+      cout << nodes[j][i].h << " ";
+    }
+    cout << endl;
+  }
+  cout << "distance_to_b:\n";
+  for (int i = 0; i < X_SIZE; i++)
+  {
+    for (size_t j = 0; j < Y_SIZE; j++)
+    {
+      cout << nodes[j][i].distance_to_beginning << " ";
+    }
+    cout << endl;
+  }
+  
   cout << endl << "Found way:\n";
 
   char way[X_SIZE][Y_SIZE];
