@@ -1,11 +1,10 @@
 #include <iostream>
-#include <dijkstra.hpp>
+#include <a.hpp>
 
 int main() {
-    std::cout << "Dijkstra" << std::endl;
-    node i;
+    std::cout << "A*" << std::endl;
     graph g=graph("plik");
-    g.dijkstra();
+    g.a();
     g.visualize();
 
 }
