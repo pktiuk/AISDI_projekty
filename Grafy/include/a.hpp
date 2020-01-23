@@ -12,6 +12,8 @@
 //#define i_to_x(a) 
 //#define i_to_y(a) (a / X_SIZE)
 
+const int MAX_NUMBER = 1000000;
+
 using namespace std;
 
 int i_to_x(int a)
@@ -69,8 +71,8 @@ graph::graph(const char *filename)
     for (int i = 0; i < X_SIZE; i++)
     {
       nodes[i][j].distance = s[i] - '0';
-      nodes[i][j].distance_to_beginning = 1000000;
-      nodes[i][j].distance_to_beginning_with_h = 1000000;
+      nodes[i][j].distance_to_beginning = MAX_NUMBER;
+      nodes[i][j].distance_to_beginning_with_h = MAX_NUMBER;
       nodes[i][j].previous_node = -1;
       nodes[i][j].h=0;
       queque.push_back(loc_to_i(i, j));
@@ -86,7 +88,7 @@ int graph::getFromQueque()
   if (queque.empty())
     return -1;
   list<int>::iterator smallestIter = queque.end();
-  int smallestDistance = 1000000;
+  int smallestDistance = MAX_NUMBER;
   for (list<int>::iterator iter = queque.begin(); iter != queque.end(); iter++)
   {
     int currDistance = nodes i_to_loc(*iter).distance_to_beginning + nodes i_to_loc(*iter).h;

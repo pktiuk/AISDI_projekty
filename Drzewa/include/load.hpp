@@ -7,55 +7,13 @@
 
 using namespace std;
 
-TreeMap<string, int> read2tree(string filename, int num = INT32_MAX)
+void read2tree(TreeMap<string, int>& tree, string s, int num = INT32_MAX)
 {
-  int i = 0;
-  ifstream inFile;
-
-  TreeMap<string, int> tree = TreeMap<string, int>();
-
-  inFile.open(filename);
-
-  if (!inFile)
-  {
-    cout << "Unable to open file";
-    exit(1); // terminate with error
-  }
-
-  string word;
-
-  while (inFile >> word && i < num)
-  {
-    tree.insert(word, i);
-    i++;
-  }
-  inFile.close();
-  return tree;
+  tree.insert(s, num);
 }
 
-map<string,int> read2map(string filename, int num = INT32_MAX)
+void read2map(map<string, int>& sysMap, string s, int num = INT32_MAX)
 {
-  int i = 0;
-  ifstream inFile;
+    sysMap.emplace(s,num);
 
-  map<string, int> sysMap;
-
-  inFile.open(filename);
-
-  if (!inFile)
-  {
-    cout << "Unable to open file";
-    exit(1); // terminate with error
-  }
-
-  string word;
-
-  while (inFile >> word && i < num)
-  {
-    sysMap.emplace(word,i);
-    i++;
-  }
-  
-  inFile.close();
-  return sysMap;
 }
