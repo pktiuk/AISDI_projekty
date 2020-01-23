@@ -69,8 +69,8 @@ graph::graph(const char *filename)
     for (int i = 0; i < X_SIZE; i++)
     {
       nodes[i][j].distance = s[i] - '0';
-      nodes[i][j].distance_to_beginning = INT32_MAX;
-      nodes[i][j].distance_to_beginning_with_h = INT32_MAX;
+      nodes[i][j].distance_to_beginning = 1000000;
+      nodes[i][j].distance_to_beginning_with_h = 1000000;
       nodes[i][j].previous_node = -1;
       nodes[i][j].h=0;
       queque.push_back(loc_to_i(i, j));
@@ -86,15 +86,14 @@ int graph::getFromQueque()
   if (queque.empty())
     return -1;
   list<int>::iterator smallestIter = queque.end();
-  int smallestDistance = INT32_MAX;
+  int smallestDistance = 1000000;
   for (list<int>::iterator iter = queque.begin(); iter != queque.end(); iter++)
   {
-    int currDistance = nodes i_to_loc(*iter).distance_to_beginning;
+    int currDistance = nodes i_to_loc(*iter).distance_to_beginning + nodes i_to_loc(*iter).h;
     if (currDistance < smallestDistance)
     {
-      smallestDistance = nodes i_to_loc(*iter).distance_to_beginning;
+      smallestDistance = currDistance;
       smallestIter = iter;
-      int zm = *iter;
     }
   }
     int result=*smallestIter;
@@ -248,3 +247,5 @@ void graph::h()
 }
 
 graph::~graph() {}
+
+
